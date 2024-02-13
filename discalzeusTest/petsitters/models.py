@@ -8,11 +8,12 @@ class User(AbstractUser):
 
 class State(models.Model):
     name = models.CharField(max_length=32)
+    def __str__(self):
+        return f"{self.name}"
 
 class City(models.Model):
     state = models.ForeignKey(State, on_delete=models.CASCADE, related_name="cities")
     name = models.CharField(max_length=64)
-    #
     def __str__(self):
         return f"{self.name}, {self.state.name}"
 
@@ -26,7 +27,7 @@ class PetSitter(models.Model):
     edad = models.PositiveSmallIntegerField()
     #
     def __str__(self):
-        return f"{self.name} {self.lastname} from {self.city}"
+        return f"{self.pk}# {self.name} {self.lastname} from {self.city}"
 
 class PetsType(models.Model):
     description = models.CharField(max_length=128)

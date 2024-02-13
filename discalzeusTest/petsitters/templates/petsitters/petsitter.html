@@ -1,0 +1,131 @@
+{% extends "petsitters/layout.html" %}
+
+
+{% block body %}
+<div class="container">
+  <div class="jumbotron">
+  	<div class="book-info">
+  		<div class="row">
+  			<div class="col-md-4 col-lg-3 text-center">
+  				<img src="{{  petsitter.photoURL  }}" class="img-fluid rounded img-thumbnail" alt="Responsive image">
+  			</div>
+  			<div class="col-md-8 col-lg-9">
+				<h1><i class="fas fa-book-open"></i> {{  petsitter.name }} {{  petsitter.lastname }}</h1>
+				<h4 class="text-secondary">
+                    from {{ petsitter.city }}, ({{ petsitter.edad }})
+                </h4>
+                <div class="list-group">
+                    <h4>Pets Types: </h4>
+                    {% for petstype in petsitter.petstypes.all %}
+                        <a href="#" class="list-group-item list-group-item-action">{{ petstype }}</a>
+                    {% endfor %}
+                  </div>
+                <div>
+                    Email: <a href="#linktoemail" class="text-muted">{{ petsitter.email }}</a>
+                </div>
+                <div>
+                    Phone: <a href="#linktophone" class="text-muted">{{ petsitter.cellphone }}</a>
+                </div>
+				
+
+  				<div class="both-ratings pt-3">
+						<!-- bookworm stat ratings -->
+					<span class="d-inline-block">{{ bwstat.avg }} <i class="fas fa-star"></i>
+					<a href="#" target="_blank" class="text-dark">
+						<small>(<i class="fas fa-bug"></i> Pet<b>Sitters</b>)</small></a> 
+					{{ bwstat.count }} reviews</span>
+				</div>
+				
+  					
+				  
+
+					<form action="{% url 'petsitter' petsitter.pk %}" method="post">
+						{% csrf_token %}
+						<div class="star-rating" data-toggle="modal" data-target="#exampleModal">
+							{% for i in rrange %}
+								<input id="star-{{ i }}" type="radio" name="rating" value="{{ i }}" {% if i == userrev.rating %}checked{% endif %}/>
+								<label for="star-{{ i }}" title="{{ i }} stars">
+									<i class="active fa fa-star" aria-hidden="true"></i>
+								</label>
+							{% endfor %}
+						</div>
+						<!-- Modal -->
+						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Review</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										{% if not user.is_authenticated %}
+											<h3 class="text-center pb-3"><a href="{% url 'register' %}">Register</a> to leave a review!</h3>
+										{% endif %}
+										<!-- comment text area -->
+										<div class="form-group">
+											<textarea {% if not user.is_authenticated %} disabled {% endif %} class="form-control" name="comment" id="message-text" placeholder="Leave a review!"></textarea>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+										<button {% if not user.is_authenticated %} disabled {% endif %} type="submit" class="btn btn-primary">Post</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</form>
+					
+  			</div>
+  		</div>
+  	</div>
+
+  </div> <!-- jumbotron end -->
+
+
+
+
+	<!-- User reviews and comments -->
+
+	<div class="dropdown-divider"></div>
+	<div id="userReviews" class="pb-3">
+		{% for review in reviews reversed %}
+		<div class="card my-1">
+			<div class="card-header pb-1 pt-2">
+				<div class="row justify-content-between">
+					<div class="col text-left"><a href="{% url 'user' review.user.username %}">{{  review.user.username  }}</a></div>
+					<div class="col text-right">
+						{% for i in "12345" %}
+							{% if forloop.counter <= review.rating %}
+								<i class="fas fa-star" style="color: orange;"></i>
+							{% else %}
+								<i class="fas fa-star"></i>
+							{% endif %}
+						{% endfor %}						
+					</div>
+					<!-- <div class="col text-right">Date: 2020</div> -->
+				</div>
+			</div>
+			<div class="card-body pb-1 pt-2">
+				<div class="row">
+					{{  review.comment  }}
+				</div>
+				<!-- <div class="row">
+					<div class="col pl-0 text-left text-muted">
+						2024
+					</div>
+					<div class="col text-right">
+
+					</div>
+				</div>  -->
+			</div>
+		</div>
+		{% endfor%}
+	</div>
+
+
+</div> <!-- container -->
+
+{% endblock %}

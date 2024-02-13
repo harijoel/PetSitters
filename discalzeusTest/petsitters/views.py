@@ -12,22 +12,31 @@ from django.urls import reverse
 def index(request):
     # if not request.user.is_authenticated:
     #     return HttpResponseRedirect(reverse("login"))
-    return render(request, "petsitters/index.html")
+    bumped = []
+    seen = set()
+    latest_reveiws = Review.objects.all().order_by("-id")
+    for review in latest_reveiws:
+        if review.petsitter.id not in seen:
+            bumped.append(review.petsitter)
+            seen.add(review.petsitter.id)
+            
+    return render(request, "petsitters/index.html", {"results": bumped})
 
 def search(request):
-    return HttpResponse("search page")
     if request.method == "GET":
         query = request.GET["q"]
         results = PetSitter.objects.filter(Q(name__icontains=query) | Q(lastname__icontains=query) | Q(city__icontains=query))
         numres = len(results)
         return render(request, "petsitters/search.html", {"results": results, "numres": numres})
+
 def petsitter(request, petsitter_id):
-    return HttpResponse("petsitter page")
+    #return HttpResponse("petsitter page")
     # Fetch petsitter profile
     try:
-        petsitter = PetSitter.objects.get(petsitter_id=petsitter_id)
+        petsitter = PetSitter.objects.get(pk=petsitter_id)
     except ObjectDoesNotExist:
-        return render(request, "petsitters/error.html")
+        #return HttpResponse("petsitter does not exist")
+        return render(request, "petsitters/error.html", {"message": "This Pet Sitter does not exist"})
     user = request.user
     
     ## Before adding a new review,
