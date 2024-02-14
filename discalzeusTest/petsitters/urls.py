@@ -10,5 +10,6 @@ urlpatterns = [
     path("register", views.register, name="register"),
     path("search", views.search, name="search"),
     path("showall", views.showall, name="showall"),
-    path("lucky", views.lucky, name="lucky")
+    path("lucky", views.lucky, name="lucky"),
+    path("addpetsitter", views.add_petsitter, name="addpetsitter")
 ]

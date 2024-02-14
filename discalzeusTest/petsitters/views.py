@@ -103,6 +103,11 @@ def petsitter(request, petsitter_id):
         "userrev": userrev, 
         "rrange": rrange,
         "bwstat": bwstat})
+def add_petsitter(request):
+    if request.method == "POST":
+        pass
+    
+    return render(request, "petsitters/addpetsitter.html")
 
 def userProfile(request, username):
     # User exists
