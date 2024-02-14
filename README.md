@@ -1,6 +1,12 @@
 # PetSitters
 Web application for finding and rating pet sitters made in Python using Django framework
 (django version 4.1.6)
+
+Instructions:
+- Download the repository and move into the locations where manage.py located
+- run the command "python manage.py runserver"
+- a link to the development server will apepear, go to that link and add "/petsitters" to the end of it, ej http://127.0.0.1:8000/petsitters/
+
 ## Responsive design (elements resize according to screen size)
 ![image](https://github.com/harijoel/PetSitters/assets/38334911/760ea49b-8858-4d82-8b52-a6d897ee90e7)
 
