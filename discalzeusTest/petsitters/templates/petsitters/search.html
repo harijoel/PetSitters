@@ -1,0 +1,57 @@
+{% extends "petsitters/layout.html" %}
+
+{% block body %}
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col">
+                <h4 class="text-muted">{{  numres  }} results</h4>
+            </div>
+            <div class="col text-right">
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Filter
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      {% for petstype in petstypes %}
+                            <a class="dropdown-item" href="#">{{ petstype }}</a>
+                        {% endfor %}
+                    </div>
+                  </div>
+            </div>
+            
+        </div>
+        
+
+        <br>
+        <div class="row">
+            {% for result in results%}
+            <div class="result col-6 col-md-4">
+            <div class="card mb-3" style="max-width: 540px;">
+              <div class="row no-gutters">
+                <div class="col-lg-4">
+                  <a href="{% url 'petsitter' result.pk %}">
+                    <img src="{{ result.photoURL }}" class="card-img" alt="...">
+                  </a>
+                </div>
+                <div class="col-lg-8">
+                  <div class="card-body">
+                    <a href="{% url 'petsitter' result.pk %}"><h5 class="card-title">{{ result.name }} {{ result.lastname }}</h5></a>
+                    <h6 class="card-subtitle mb-2 text-muted pl-2">{{  result.city  }}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted pl-2">{{  result.edad  }}</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <p class="card-text text-right"><small class="text-muted">This person is very...</small></p>
+              </div>
+            </div> 
+            
+            </div>  <!-- end card div -->
+            {% endfor %}
+        </div>
+    </div>
+    
+    
+
+{% endblock %}

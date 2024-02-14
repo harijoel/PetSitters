@@ -4,7 +4,9 @@ from django.db import models
 # Create your models here.
 class User(AbstractUser):
     pass
-    #homeaddress = models.CharField(max_length=64)
+    # homeaddress = models.CharField(max_length=64)
+    # cellphone = models.CharField(max_length=64)
+    # firstname, lastname, email, username, password already included by default
 
 class State(models.Model):
     name = models.CharField(max_length=32)
@@ -30,7 +32,7 @@ class PetSitter(models.Model):
         return f"{self.pk}# {self.name} {self.lastname} from {self.city}"
 
 class PetsType(models.Model):
-    description = models.CharField(max_length=128)
+    description = models.CharField(max_length=128, unique=True)
     petsitters = models.ManyToManyField(PetSitter, blank=True, related_name="petstypes")
     #
     def __str__(self):

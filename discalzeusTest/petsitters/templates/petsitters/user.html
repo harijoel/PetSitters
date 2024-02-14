@@ -14,7 +14,7 @@
 	<div class="list-group">
 	  	{% for userReview in userReviews%}
 			<a href="{% url 'petsitter' userReview.petsitter.pk %}" class="list-group-item list-group-item-action d-flex justify-content-between">
-				<div>{{  userReview.petsitter.name  }}</div>
+				<div>to {{  userReview.petsitter.name  }} ({{ userReview.petsitter.edad }}) from {{ userReview.petsitter.city.name }}:</div>
                 <div>"{{  userReview.comment  }}"</div>
 				<div>
 					{% for i in "12345" %}

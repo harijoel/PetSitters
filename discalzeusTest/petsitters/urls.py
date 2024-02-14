@@ -8,5 +8,7 @@ urlpatterns = [
     path("petsitter/<int:petsitter_id>", views.petsitter, name="petsitter"),
     path("user/<str:username>", views.userProfile, name="user"),
     path("register", views.register, name="register"),
-    path("search", views.search, name="search")
+    path("search", views.search, name="search"),
+    path("showall", views.showall, name="showall"),
+    path("lucky", views.lucky, name="lucky")
 ]

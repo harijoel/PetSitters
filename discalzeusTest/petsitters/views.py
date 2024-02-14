@@ -1,9 +1,9 @@
+from random import choice
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from .models import User, PetSitter, Review
-from django.db.models import Q
-from django.db.models import Avg
+from .models import User, PetSitter, Review, PetsType
+from django.db.models import Q, Avg
 from django.db import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
@@ -25,10 +25,32 @@ def index(request):
 def search(request):
     if request.method == "GET":
         query = request.GET["q"]
-        results = PetSitter.objects.filter(Q(name__icontains=query) | Q(lastname__icontains=query) | Q(city__icontains=query))
+        results = PetSitter.objects.filter(Q(name__icontains=query) | Q(lastname__icontains=query) | Q(city__name__icontains=query))
         numres = len(results)
-        return render(request, "petsitters/search.html", {"results": results, "numres": numres})
+        petstypes = PetsType.objects.all()
+        return render(request, "petsitters/search.html", {"results": results, "numres": numres, "petstypes": petstypes})
+    
+def showall(request):
+    if request.method == "GET":
+        try:
+            query = request.GET["type"]
+        except:
+            query = None
+        if not query:
+            results = PetSitter.objects.all()
+        else:
+            # Finish this part
+            results = PetSitter.objects.filter()
+        numres = len(results)
+        petstypes = PetsType.objects.all()
+        return render(request, "petsitters/search.html", {"results": results, "numres": numres, "petstypes": petstypes})
 
+def lucky(request):
+    pks = PetSitter.objects.values_list('pk', flat=True)
+    random_pk = choice(pks)
+    random_obj = PetSitter.objects.get(pk=random_pk)
+    return HttpResponseRedirect(reverse("petsitter", args=(random_obj.pk, )))
+    
 def petsitter(request, petsitter_id):
     #return HttpResponse("petsitter page")
     # Fetch petsitter profile

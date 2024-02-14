@@ -46,7 +46,7 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light border">
-      <a class="navbar-brand" href="{% url 'index' %}">Pet<b>Sitters</b> <i class="fas fa-bug"></i></a>
+      <a class="navbar-brand" href="{% url 'index' %}"><b>Pet</b>Sitters <i class="fas fa-bug"></i></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -56,8 +56,12 @@
             <form action="{% url 'search' %}" method="get" class="form-inline my-2 my-lg-0">
                 <input name="q" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
-                <a class="btn btn-outline-success my-2 my-sm-0 ml-2" href=# role="button">Lucky</a>
+                <a class="btn btn-outline-success my-2 my-sm-0 ml-2" href="{% url 'lucky' %}" role="button">Lucky</a>
             </form>
+            
+            <li class="nav-item mr-auto">
+              <a class="nav-link" href="{% url 'showall' %}">Show all</a>
+            </li>
         </ul>
         <ul class="navbar-nav ml-auto">
           {% if user.is_authenticated %}
